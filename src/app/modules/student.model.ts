@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { Guardian, Student, Student, UserName, localGuardian } from "./student/student.interface";
+import { Guardian, Student, UserName, localGuardian } from "./student/student.interface";
 
 
 const UserNameSchema = new Schema<UserName>(
@@ -72,4 +72,4 @@ const StudentSchema = new Schema<Student>({
 
 })
 
-const Student = model<Student>('Student', StudentSchema)
+ export const StudentModel = model<Student>('Student', StudentSchema)
