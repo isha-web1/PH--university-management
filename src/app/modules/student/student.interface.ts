@@ -9,22 +9,34 @@ export type Guardian =  {
     motherContactNo : string
 }
 
+export type localGuardian = {
+    name : string,
+    occupation : string,
+    contactNo : string,
+    address : string
+}
+
+export type UserName = {
+    firstName : string,
+    middleName : string,
+    lastName : string
+}
+
 
 export type Student = {
     id : string,
-    name : {
-        firstName : string,
-        middleName : string,
-        lastName : string
-    },
+    name : UserName,
     gender : "male" | "female",
-    dateOfBirth : string,
+    dateOfBirth? : string,
     email : string,
     contactNo : string,
     emergencyContactNo : string,
     bloodGroup?: "A+" | "A-" | "B+" | "B-" | "AB" | "O+" | "O-",
     presentAddress : string,
     permanentAddress : string,
-    guardian : Guardian
+    guardian : Guardian,
+    localGuardian : localGuardian,
+    profileImg? : string,
+    isActive : 'active' | "in-active"
 
 }
