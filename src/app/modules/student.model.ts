@@ -58,7 +58,8 @@ const StudentSchema = new Schema<Student>({
     id : {type : String, required : true, unique : true},
     name : {
         type : UserNameSchema,
-        required : [true, ' name must be required']
+        required : [true, ' name must be required'],
+        maxLength : [20, 'name cannot be more than 20 characters']
     } ,
     gender : {
         type : String,
@@ -74,8 +75,8 @@ const StudentSchema = new Schema<Student>({
     emergencyContactNo : {type: String, required : [true, 'emergency contactNo must be required']},
     bloodGroup : {
         type : String,
-        enum : {
-            values : ['A+','A-','AB','B+','B-','O+','O-'],
+        enum: {
+            values: ["A+" , "A-" , "B+" , "B-" , "AB" , "O+" , "O-"],
             message : '{VALUE} is not valid'
         }
     },
@@ -92,7 +93,7 @@ const StudentSchema = new Schema<Student>({
     profileImg : {type : String},
     isActive : {
         type : String,
-        enum :  ['active', 'blocked'],
+        enum :  ['active', 'in-active'],
         default : 'active'
     }
 

@@ -1,11 +1,16 @@
 import { Request, Response } from "express";
 import { studentServices } from "./student.service";
+import { z } from "zod";
+import StudentValidationSchema from "./student.validation";
 
 const createStudent = async(req: Request, res : Response) =>{
     try{
+         
         const {student: studentData} = req.body
+        // data validation using zod
+        const zodParseData = StudentValidationSchema.parse(studentData)
         // will call service function to send this data
-         const result = await studentServices.createStudentIntoDb(studentData)
+         const result = await studentServices.createStudentIntoDb(zodParseData)
         //  send response
         res.status(200).json({
             success : true,
@@ -14,7 +19,11 @@ const createStudent = async(req: Request, res : Response) =>{
         })
 
     }catch(err){
-        console.log(err)
+        res.status(500).json({
+            success : false,
+            message : 'student can not retrieved successfully',
+            error : err
+        })
     }
    
 }
@@ -31,7 +40,11 @@ const getAllStudentFromDb = async(req:Request, res:Response) =>{
         })
 
     }catch(err){
-        console.log(err)
+        res.status(500).json({
+            success : false,
+            message : 'student can not  retrieved successfully',
+            error : err
+        })
     }
 }
 const getSingleStudentFromDb = async(req:Request, res:Response) =>{
@@ -48,7 +61,11 @@ const getSingleStudentFromDb = async(req:Request, res:Response) =>{
         })
 
     }catch(err){
-        console.log(err)
+        res.status(500).json({
+            success : false,
+            message : 'student can not retrieved successfully',
+            error : err
+        })
     }
 }
 
