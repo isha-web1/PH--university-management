@@ -38,6 +38,7 @@ export type Student = {
     guardian : Guardian,
     localGuardian : localGuardian,
     profileImg? : string,
-    isActive : 'active' | "in-active"
+    isActive : 'active' | "in-active",
+    isDeleted : boolean
 
 }
