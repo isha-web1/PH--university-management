@@ -1,5 +1,7 @@
 import { Schema, model } from "mongoose";
 import { Guardian, Student, UserName, localGuardian } from "./student/student.interface";
+import bcrypt from 'bcrypt'
+import config from "../../config";
 
 
 const UserNameSchema = new Schema<UserName>(
@@ -56,6 +58,7 @@ const LocalGuardianNameSchema = new Schema<localGuardian>({
 
 const StudentSchema = new Schema<Student>({
     id : {type : String, required : true, unique : true},
+    password : {type : String, required :[ true, 'password is required'],unique :true, maxLength :[20, 'password can not be more than 20 characters'] },
     name : {
         type : UserNameSchema,
         required : [true, ' name must be required'],
@@ -97,6 +100,19 @@ const StudentSchema = new Schema<Student>({
         default : 'active'
     }
 
+})
+
+// pre save middleware
+StudentSchema.pre('save',async function(next){
+    // console.log(this, 'pre hook: we will save the data')
+    // hashing password and save into Db
+    const user = this;
+  user.password = await  bcrypt.hash(user.password,Number(config.bcrypt_salt_rounds))
+  next()
+})
+// post save middle ware
+StudentSchema.post('save', function(){
+    console.log(this, 'post hook: we save our data')
 })
 
  export const StudentModel = model<Student>('Student', StudentSchema)
