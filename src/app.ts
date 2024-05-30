@@ -1,10 +1,10 @@
 
 import express, { Application,  Request, Response, } from 'express'
 import cors from 'cors'
-import { studentRoutes } from './app/modules/student/student.route'
-import { UserRoutes } from './app/modules/user/user.routes'
+
 import globalErrorHandler from './app/middleware/globalErrorHandler'
 import notFound from './app/middleware/notFound'
+import router from './app/routes'
 const app : Application = express()
 
 
@@ -14,14 +14,14 @@ app.use(express.json())
 app.use(cors())
 
 // application routes
-app.use('/api/v1/students', studentRoutes)
-app.use('/api/v1/users', UserRoutes)
+app.use('/api/v1', router)
 
-const getAController =  (req : Request, res: Response) => {
+
+const Test =  (req : Request, res: Response) => {
   res.send('Hello World!')
 }
 
-app.get('/', getAController)
+app.get('/', Test)
 
 app.use(globalErrorHandler)
 // not found 
