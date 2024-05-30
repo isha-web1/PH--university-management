@@ -1,8 +1,10 @@
 
-import express, { Application, Request, Response } from 'express'
+import express, { Application,  Request, Response, } from 'express'
 import cors from 'cors'
 import { studentRoutes } from './app/modules/student/student.route'
 import { UserRoutes } from './app/modules/user/user.routes'
+import globalErrorHandler from './app/middleware/globalErrorHandler'
+import notFound from './app/middleware/notFound'
 const app : Application = express()
 
 
@@ -21,6 +23,8 @@ const getAController =  (req : Request, res: Response) => {
 
 app.get('/', getAController)
 
-
+app.use(globalErrorHandler)
+// not found 
+app.use(notFound)
 
 export default app;
