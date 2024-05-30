@@ -59,6 +59,12 @@ const LocalGuardianNameSchema = new Schema<localGuardian>({
 
 const StudentSchema = new Schema<Student>({
     id : {type : String, required : true, unique : true},
+    user : {
+      type :   Schema.Types.ObjectId,
+      required : [true, 'user id must be provided'],
+      unique : true,
+      ref : 'User'
+    },
     password : {type : String, required :[ true, 'password is required'], maxLength :[20, 'password can not be more than 20 characters'] },
     name : {
         type : UserNameSchema,
@@ -95,11 +101,7 @@ const StudentSchema = new Schema<Student>({
         required : [true, 'localGuardian must be required']
     },
     profileImg : {type : String},
-    isActive : {
-        type : String,
-        enum :  ['active', 'in-active'],
-        default : 'active'
-    },
+    
     isDeleted : {
         type : Boolean,
         default : false
