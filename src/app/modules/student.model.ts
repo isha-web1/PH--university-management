@@ -79,7 +79,7 @@ const StudentSchema = new Schema<Student>({
         },
         required : [true, 'gender must be following choose by one']
     },
-    dateOfBirth : {type: String},
+    dateOfBirth : {type: Date},
     email : {type: String, required : [true, 'email must be required'], unique : true},
     contactNo : {type: String, required : [true, 'contactNo must be required']},
     emergencyContactNo : {type: String, required : [true, 'emergency contactNo must be required']},
