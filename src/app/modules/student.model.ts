@@ -5,6 +5,8 @@ import { Guardian, Student, UserName, localGuardian } from "./student/student.in
 
 
 
+
+
 const UserNameSchema = new Schema<UserName>(
     {
         firstName : {
@@ -59,6 +61,7 @@ const LocalGuardianNameSchema = new Schema<localGuardian>({
 
 const StudentSchema = new Schema<Student>({
     id : {type : String, required : true, unique : true},
+    // password : {type : string, required : true},
     user : {
       type :   Schema.Types.ObjectId,
       required : [true, 'user id must be provided'],
@@ -79,7 +82,7 @@ const StudentSchema = new Schema<Student>({
         },
         required : [true, 'gender must be following choose by one']
     },
-    dateOfBirth : {type: Date},
+    dateOfBirth : {type: String},
     email : {type: String, required : [true, 'email must be required'], unique : true},
     contactNo : {type: String, required : [true, 'contactNo must be required']},
     emergencyContactNo : {type: String, required : [true, 'emergency contactNo must be required']},
@@ -101,7 +104,10 @@ const StudentSchema = new Schema<Student>({
         required : [true, 'localGuardian must be required']
     },
     profileImg : {type : String},
-    
+    admissionSemester : {
+        type : Schema.Types.ObjectId,
+        ref : 'AcademicSemester'
+    },
     isDeleted : {
         type : Boolean,
         default : false

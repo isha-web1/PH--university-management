@@ -30,7 +30,7 @@ export type Student = {
     password : string,
     name : UserName,
     gender : "male" | "female" | "other",
-    dateOfBirth? : Date,
+    dateOfBirth? :string,
     email : string,
     contactNo : string,
     emergencyContactNo : string,
@@ -40,7 +40,7 @@ export type Student = {
     guardian : Guardian,
     localGuardian : localGuardian,
     profileImg? : string,
-   
+   admissionSemester : Types.ObjectId,
     isDeleted : boolean
 
 }

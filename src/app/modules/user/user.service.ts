@@ -1,11 +1,14 @@
 
 import config from "../../../config"
+import { TAcademicSemester } from "../academicSemester/academicSemester.interface"
+import { AcademicSemester } from "../academicSemester/academicSemester.model"
 import { StudentModel } from "../student.model"
 import { Student } from "../student/student.interface"
 import {  TUser } from "./user.interface"
 import { User } from "./user.model"
+import { generatedStudentId } from "./user.utiles"
 
-const createStudentIntoDb = async(password : string,studentData : Student) =>{
+const createStudentIntoDb = async(password : string,payload : Student) =>{
 
     // create a user object
     const userData : Partial<TUser> = {}
@@ -14,16 +17,23 @@ const createStudentIntoDb = async(password : string,studentData : Student) =>{
     
     // set student role
     userData.role = 'student';
+
+    
+    // find academic semester info
+    const admissionSemester = await AcademicSemester.findById(payload.admissionSemester)
+
+
+
     //set manually generated id
-    userData.id = '20301000001'
+    userData.id = await generatedStudentId(admissionSemester as TAcademicSemester)
     // create a user
     const newUser = await User.create(userData)
     // create a student
     if(Object.keys(newUser).length){
     //    set id, _id as user
-    studentData.id = newUser.id;/* embed id */
-    studentData.user = newUser._id;/* reference id */
-    const newStudent = await StudentModel.create(studentData)
+    payload.id = newUser.id;/* embed id */
+    payload.user = newUser._id;/* reference id */
+    const newStudent = await StudentModel.create(payload)
     return newStudent
     }
       
