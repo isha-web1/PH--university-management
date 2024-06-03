@@ -22,7 +22,7 @@ import { TAcademicSemesterCode, TAcademicSemesterName, TAcademicSemesterNameCode
   
  export const academicSemesterNameCodeMapper : TAcademicSemesterNameCodeMapper = {
     Autumn : '01',
-    Summer : '02', 
+    summer : '02', 
     Fall : '03'
 }
   
