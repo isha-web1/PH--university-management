@@ -12,7 +12,7 @@ const router = express.Router()
 
 router.post('/create-academic-faculty',validateRequest(academicFacultyValidation.CreateAcademicFacultyValidationSchema) ,AcademicFacultyController.createAcademicFaculty)
 
-router.get('/:facultyId',AcademicFacultyController.getAllAcademicFaculty)
+router.get('/:facultyId',AcademicFacultyController.getSingleAcademicFaculty)
 
 router.patch('/:facultyId',validateRequest( academicFacultyValidation.UpdateAcademicFacultyValidationSchema),AcademicFacultyController.updateAcademicFaculty)
 

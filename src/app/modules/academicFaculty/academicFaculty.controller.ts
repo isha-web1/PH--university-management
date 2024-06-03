@@ -37,7 +37,7 @@ const getSingleAcademicFaculty = catchAsync(async(req, res) =>{
  sendResponse(res,{
     statusCode : httpStatus.OK,
     success : true,
-    message : 'academic Faculty are retrieved  successfully',
+    message : 'academic Faculty is retrieved  successfully',
     data : result
  })
 })
@@ -49,7 +49,7 @@ const updateAcademicFaculty = catchAsync(async(req, res) =>{
  sendResponse(res,{
     statusCode : httpStatus.OK,
     success : true,
-    message : 'academic Faculty are retrieved  successfully',
+    message : 'academic Faculty is updated  successfully',
     data : result
  })
 })
