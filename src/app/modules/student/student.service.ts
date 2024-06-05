@@ -3,6 +3,7 @@ import { StudentModel } from "../student.model";
 import AppError from "../../errors/appErrors";
 import { User } from "../user/user.model";
 import httpStatus from "http-status";
+import { Student } from "./student.interface";
 
 
 
@@ -18,12 +19,21 @@ const getAllStudentFromDb = async() =>{
 }
 
 const getSingleStudentFromDb = async(id : string) =>{
-    const result = await StudentModel.findById({id}).populate('admissionSemester').populate({
+    console.log(id)
+    const result = await StudentModel.findOne({id:id}).populate
+    ('admissionSemester').populate({
         path : "academicDepartment",
         populate : {
             path : 'academicFaculty'
         }
     });
+    console.log(result)
+    return result
+}
+
+const updateStudentFromDb = async(id : string, payload : Partial<Student>) =>{
+    console.log(id)
+    const result = await StudentModel.findOneAndUpdate({id},payload)
     return result
 }
 const deleteStudentFromDb = async(id : string) =>{
@@ -62,5 +72,6 @@ export const studentServices = {
     
     getAllStudentFromDb,
     getSingleStudentFromDb,
-    deleteStudentFromDb
+    deleteStudentFromDb,
+    updateStudentFromDb
 }
