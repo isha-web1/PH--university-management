@@ -12,7 +12,7 @@ const createStudent  = catchAsync(async(req, res , next) =>{
     // will call service function to send this data
      const result = await userService.createStudentIntoDb(password,studentData)
     //  send response
-    
+    console.log(result)
  sendResponse(res,{
     statusCode : httpStatus.OK,
     success : true,

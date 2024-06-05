@@ -32,7 +32,7 @@ const getSingleStudentFromDb  = catchAsync(async(req, res, next) =>{
          })
 })
 const deleteStudentFromDb  = catchAsync(async(req, res, next ) =>{
-    const {studentId} = req.body
+    const {studentId} = req.params
         
         const result = await studentServices.deleteStudentFromDb(studentId)
         //  send response

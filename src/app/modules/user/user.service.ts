@@ -24,7 +24,10 @@ const createStudentIntoDb = async(password : string,payload : Student) =>{
     
     // find academic semester info
     const admissionSemester = await AcademicSemester.findById(payload.admissionSemester)
-
+    // const isValidUser = await User.findOne();
+    // if(!isValidUser){
+    //     throw new AppError(httpStatus.NOT_FOUND,"user does not exist")
+    // }
     const session = await mongoose.startSession()
    
     try{
@@ -33,7 +36,7 @@ const createStudentIntoDb = async(password : string,payload : Student) =>{
     // create a user(transaction-1)
     const newUser = await User.create([userData],{session})
     // create a student
-    if(newUser.length){
+    if(!newUser.length){
         throw new AppError(httpStatus.BAD_REQUEST, 'failed to create user')
     
     }
@@ -47,7 +50,10 @@ const createStudentIntoDb = async(password : string,payload : Student) =>{
     }
     await session.commitTransaction()
     await session.endSession()
+    console.log(newStudent,newUser, 'user')
+
     return newStudent
+    
 
     }catch(err){
      await session.abortTransaction()
