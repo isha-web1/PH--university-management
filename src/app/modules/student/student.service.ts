@@ -4,6 +4,7 @@ import AppError from "../../errors/appErrors";
 import { User } from "../user/user.model";
 import httpStatus from "http-status";
 import { Student } from "./student.interface";
+import { object } from "zod";
 
 
 
@@ -32,8 +33,27 @@ const getSingleStudentFromDb = async(id : string) =>{
 }
 
 const updateStudentFromDb = async(id : string, payload : Partial<Student>) =>{
-    console.log(id)
-    const result = await StudentModel.findOneAndUpdate({id},payload)
+    const {name, guardian, localGuardian, ...remainingStudentData} = payload;
+
+    const modifiedUpdateData : Record<string,unknown> = {...remainingStudentData}
+
+    if(name && Object.keys(name).length){
+        for(const [key,value] of Object.entries(name)){
+            modifiedUpdateData[`name.${key}`] = value
+        } 
+    }
+    if(guardian && Object.keys(guardian).length){
+        for(const [key,value] of Object.entries(guardian)){
+            modifiedUpdateData[`guardian.${key}`] = value
+        } 
+    }
+    if(localGuardian && Object.keys(localGuardian).length){
+        for(const [key,value] of Object.entries(localGuardian)){
+            modifiedUpdateData[`localGuardian.${key}`] = value
+        } 
+    }
+    console.log(modifiedUpdateData)
+    const result = await StudentModel.findOneAndUpdate({id},modifiedUpdateData, {new : true, runValidators : true})
     return result
 }
 const deleteStudentFromDb = async(id : string) =>{
@@ -62,7 +82,7 @@ const deleteStudentFromDb = async(id : string) =>{
         await session.abortTransaction()
         await session.endSession()
         throw new Error('Failed to delete student');
-        console.log(err)
+       
         
     }
     
