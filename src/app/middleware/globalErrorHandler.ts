@@ -5,6 +5,8 @@ import { TErrorSources } from "../interface/error";
 import config from "../../config";
 import handleZodError from "../errors/handleZodError";
 import handleValidationError from "../errors/handleValidationError";
+import handleCastError from "../errors/handleCastError";
+import handleDuplicateError from "../errors/handleDuplicateError";
 
 
 const globalErrorHandler : ErrorRequestHandler = (err, req, res, next : NextFunction)=>{
@@ -31,6 +33,16 @@ const globalErrorHandler : ErrorRequestHandler = (err, req, res, next : NextFunc
        statusCode = simplifiedError?.statusCode,
        message = simplifiedError?.message,
        errorSources = simplifiedError?.errorSources
+    }else if(err?.name === 'castError'){
+        const simplifiedError = handleCastError(err)
+        statusCode = simplifiedError?.statusCode,
+        message = simplifiedError?.message,
+        errorSources = simplifiedError?.errorSources  
+    }else if(err?.name === 11000){
+        const simplifiedError = handleDuplicateError(err)
+        statusCode = simplifiedError?.statusCode,
+        message = simplifiedError?.message,
+        errorSources = simplifiedError?.errorSources  
     }
     //  ultimate return
     return res.status(statusCode).json({
