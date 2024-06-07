@@ -9,8 +9,16 @@ import { object } from "zod";
 
 
 
-const getAllStudentFromDb = async() =>{
-    const result = await StudentModel.find().populate('admissionSemester').populate({
+const getAllStudentFromDb = async(query : Record<string,unknown>) =>{
+    let searchTerm = '';
+    if(query?.searchTerm){
+        searchTerm = query?.searchTerm as string
+    }
+    const result = await StudentModel.find({
+        $or : ['email', 'name.firstName', 'presentAddress'].map((field) =>({
+            [field] : {$regex: searchTerm, $options : 'i'} 
+        }))
+    }).populate('admissionSemester').populate({
         path : "academicDepartment",
         populate : {
             path : 'academicFaculty'
