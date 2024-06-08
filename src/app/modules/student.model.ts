@@ -115,8 +115,19 @@ const StudentSchema = new Schema<Student>({
     academicDepartment : {
         type : Schema.Types.ObjectId,
         ref : 'AcademicDepartment'
-    }
+    },
+    
 
+},
+{
+    toJSON : {
+        virtuals : true
+    }
+},)
+
+// virtual
+StudentSchema.virtual('fullname').get(function(){
+    return this?.name?.firstName + this?.name?.middleName + this?.name?.lastName;
 })
 
 
