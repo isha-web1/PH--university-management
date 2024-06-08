@@ -61,10 +61,7 @@ const createStudentIntoDb = async(password : string,payload : Student) =>{
      throw new Error(err)
     }
 
-
-    
-    
-      
+          
     }
 
 export const userService = {
