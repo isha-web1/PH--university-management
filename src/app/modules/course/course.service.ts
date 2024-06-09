@@ -1,3 +1,5 @@
+import QueryBuilder from "../../builder/QueryBuilder"
+import { courseSearchableField } from "./course.constance"
 import { TCourse } from "./course.interface"
 import { Course } from "./course.model"
 
@@ -6,8 +8,9 @@ const createCourseIntoDb = async (payload :TCourse)=>{
  return result
 }
 
-const getAllCourseFromDb = async ()=>{
- const result = await Course.find()
+const getAllCourseFromDb = async (query:Record<string,unknown>)=>{
+    const courseQuery = new QueryBuilder(Course.find().populate('preRequisiteCourses.course'),query).search(courseSearchableField).filter().sort().paginate().fields()
+ const result = await courseQuery.modelQuery
  return result
 }
 const getSingleCourseFromDb = async (id : string)=>{
