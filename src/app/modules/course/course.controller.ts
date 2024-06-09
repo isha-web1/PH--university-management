@@ -1,0 +1,74 @@
+
+import sendResponse from "../../utils/sendResponse"
+import httpStatus from "http-status"
+import catchAsync from "../../utils/catchAsync"
+
+import { courseServices } from "./course.service"
+
+
+const createCourse  = catchAsync(async(req, res , next) =>{
+     
+   const result = await courseServices.createCourseIntoDb(req.body)
+    
+    //  send response
+ sendResponse(res,{
+    statusCode : httpStatus.OK,
+    success : true,
+    message : 'Course is created successfully',
+    data : result
+ })
+})
+
+const getAllCourses = catchAsync(async(req, res)=>{
+    const result = await courseServices.getAllCourseFromDb();
+      //  send response
+ sendResponse(res,{
+    statusCode : httpStatus.OK,
+    success : true,
+    message : 'course are retrieved  successfully',
+    data : result
+ })
+})
+
+const getSingleCourses = catchAsync(async(req, res) =>{
+    const {id} = req.params
+    const result = await courseServices.getSingleCourseFromDb(id)
+         //  send response
+ sendResponse(res,{
+    statusCode : httpStatus.OK,
+    success : true,
+    message : 'single course is retrieved  successfully',
+    data : result
+ })
+})
+
+// const updateAcademicFaculty = catchAsync(async(req, res) =>{
+//     const {facultyId} = req.params;
+//     const result = await AcademicFacultyServices.updateAcademicFacultyIntoDb(facultyId, req.body)
+//            //  send response
+//  sendResponse(res,{
+//     statusCode : httpStatus.OK,
+//     success : true,
+//     message : 'academic Faculty is updated  successfully',
+//     data : result
+//  })
+// })
+
+const deleteCourse = catchAsync(async(req, res) =>{
+    const {id} = req.params
+    const result = await courseServices.deletedCourseFromDb(id)
+         //  send response
+ sendResponse(res,{
+    statusCode : httpStatus.OK,
+    success : true,
+    message : ' course is deleted  successfully',
+    data : result
+ })
+})
+
+export const AcademicFacultyController = {
+     createCourse,
+     getAllCourses,
+     getSingleCourses,
+     deleteCourse
+}
