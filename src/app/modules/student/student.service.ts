@@ -86,7 +86,7 @@ return result
 
 const getSingleStudentFromDb = async(id : string) =>{
     console.log(id)
-    const result = await StudentModel.findOne({id:id}).populate
+    const result = await StudentModel.findById(id).populate
     ('admissionSemester').populate({
         path : "academicDepartment",
         populate : {
@@ -118,7 +118,7 @@ const updateStudentFromDb = async(id : string, payload : Partial<Student>) =>{
         } 
     }
     console.log(modifiedUpdateData)
-    const result = await StudentModel.findOneAndUpdate({id},modifiedUpdateData, {new : true, runValidators : true})
+    const result = await StudentModel.findByIdAndUpdate(id,modifiedUpdateData, {new : true, runValidators : true})
     return result
 }
 const deleteStudentFromDb = async(id : string) =>{
@@ -132,11 +132,13 @@ const deleteStudentFromDb = async(id : string) =>{
 
     try{
         session.startTransaction()
-        const deletedStudent = await StudentModel.findOneAndUpdate({id},{isDeleted : true}, {new : true, session})
+        const deletedStudent = await StudentModel.findByIdAndUpdate(id,{isDeleted : true}, {new : true, session})
         if(!deletedStudent){
            throw new AppError(httpStatus.BAD_REQUEST,'failed to delete student')
         }
-        const deletedUser = await User.findOneAndUpdate({id},{isDeleted : true}, {new : true, session})
+        // get user id from deletedStudent
+        const userId = deletedStudent.user
+        const deletedUser = await User.findByIdAndUpdate(userId,{isDeleted : true}, {new : true, session})
         if(!deletedUser){
             throw new AppError(httpStatus.BAD_REQUEST,'failed to delete user') 
         }
