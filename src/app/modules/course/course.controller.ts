@@ -42,17 +42,17 @@ const getSingleCourses = catchAsync(async(req, res) =>{
  })
 })
 
-// const updateAcademicFaculty = catchAsync(async(req, res) =>{
-//     const {facultyId} = req.params;
-//     const result = await AcademicFacultyServices.updateAcademicFacultyIntoDb(facultyId, req.body)
-//            //  send response
-//  sendResponse(res,{
-//     statusCode : httpStatus.OK,
-//     success : true,
-//     message : 'academic Faculty is updated  successfully',
-//     data : result
-//  })
-// })
+const updateCourse = catchAsync(async(req, res) =>{
+    const {id} = req.params;
+    const result = await AcademicFacultyServices.updateAcademicFacultyIntoDb(id, req.body)
+           //  send response
+ sendResponse(res,{
+    statusCode : httpStatus.OK,
+    success : true,
+    message : 'course is updated  successfully',
+    data : result
+ })
+})
 
 const deleteCourse = catchAsync(async(req, res) =>{
     const {id} = req.params
@@ -69,6 +69,7 @@ const deleteCourse = catchAsync(async(req, res) =>{
 export const CourseController = {
      createCourse,
      getAllCourses,
+     updateCourse,
      getSingleCourses,
      deleteCourse
 }

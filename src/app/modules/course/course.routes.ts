@@ -22,13 +22,13 @@ router.get(
   CourseController.getSingleCourses,
 );
 
-// router.patch(
-//   '/:departmentId',
-//   validateRequest(
-//     academicFacultyValidation.UpdateAcademicFacultyValidationSchema,
-//   ),
-//   AcademicFacultyController.updateAcademicFaculty,
-// );
+router.patch(
+  '/:departmentId',
+  validateRequest(
+    courseValidationSchema.updateCourseValidationSchema,
+  ),
+  CourseController.updateCourse,
+);
 
 router.get('/', CourseController.getAllCourses);
 
