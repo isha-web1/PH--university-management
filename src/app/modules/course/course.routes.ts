@@ -23,7 +23,7 @@ router.get(
 );
 
 router.patch(
-  '/:departmentId',
+  '/:id',
   validateRequest(
     courseValidationSchema.updateCourseValidationSchema,
   ),

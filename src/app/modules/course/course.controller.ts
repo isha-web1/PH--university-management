@@ -44,7 +44,8 @@ const getSingleCourses = catchAsync(async(req, res) =>{
 
 const updateCourse = catchAsync(async(req, res) =>{
     const {id} = req.params;
-    const result = await AcademicFacultyServices.updateAcademicFacultyIntoDb(id, req.body)
+    const result = await courseServices.updateCourseIntoDb(id, req.body)
+    console.log(result)
            //  send response
  sendResponse(res,{
     statusCode : httpStatus.OK,
