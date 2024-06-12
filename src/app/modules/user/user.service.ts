@@ -98,7 +98,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
   
       // create a user (transaction-1)
       const newUser = await User.create([userData], { session }); // array
-  
+       
       //create a faculty
       if (!newUser.length) {
         throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create user');
@@ -108,7 +108,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
       payload.user = newUser[0]._id; //reference _id
   
       // create a faculty (transaction-2)
-  
+      
       const newFaculty = await Faculty.create([payload], { session });
   
       if (!newFaculty.length) {

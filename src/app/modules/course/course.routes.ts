@@ -30,7 +30,7 @@ router.patch(
   CourseController.updateCourse,
 );
 
-router.put('/:courseId/assign-faculties')
+router.put('/:courseId/assign-faculties',validateRequest(courseValidationSchema.assignFacultiesWithCourseValidationSchema),CourseController.assignFacultiesWithCourse)
 
 router.get('/', CourseController.getAllCourses);
 
