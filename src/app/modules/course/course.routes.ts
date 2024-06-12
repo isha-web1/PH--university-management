@@ -30,7 +30,9 @@ router.patch(
   CourseController.updateCourse,
 );
 
-router.put('/:courseId/assign-faculties',validateRequest(courseValidationSchema.assignFacultiesWithCourseValidationSchema),CourseController.assignFacultiesWithCourse)
+router.put('/:courseId/assign-faculties',validateRequest(courseValidationSchema.facultiesWithCourseValidationSchema),CourseController.assignFacultiesWithCourse)
+
+router.delete('/:courseId/remove-faculties',validateRequest(courseValidationSchema.facultiesWithCourseValidationSchema),CourseController.removeFacultiesFromCourse)
 
 router.get('/', CourseController.getAllCourses);
 
