@@ -4,14 +4,15 @@ import { AcademicSemester } from "../academicSemester/academicSemester.model"
 import { TSemesterRegistration } from "./semesterRegistration.interface"
 import { semesterRegistration } from "./semesterRegistration.model"
 import QueryBuilder from "../../builder/QueryBuilder"
+import { RegistrationStatus } from "./semesterRegistration.constance"
 
 const createSemesterRegistrationIntoDb = async (payload : TSemesterRegistration) =>{
       const academicSemester = payload?.academicSemester
     //   check if there any semester registered that is already 'UPCOMING' or 'ONGOING'
     const isThereUpcomingOrOngoingSemester = await semesterRegistration.findOne({
         $or : [
-            {status : 'UPCOMING'},
-            {status : 'ONGOING'}
+            {status : RegistrationStatus.UPCOMING},
+            {status : RegistrationStatus.ONGOING}
         ]
     })
 
@@ -56,9 +57,29 @@ if(!isSemesterRegistrationExist){
 }
     // if the requested semester Registration is ended, we will not update anything
   const currentSemesterStatus = isSemesterRegistrationExist.status;
-  if(currentSemesterStatus === 'ENDED'){
+  const requestStatus = payload?.status;
+  if(currentSemesterStatus === RegistrationStatus.ENDED){
     throw new AppError(httpStatus.NOT_FOUND,`this semester is already  ${currentSemesterStatus} `)
   }
+//   UPCOMING --> ONGOING --> ENDED
+  if(currentSemesterStatus === RegistrationStatus.UPCOMING && requestStatus === RegistrationStatus.ENDED){
+    throw new AppError(httpStatus.NOT_FOUND,`you can not directly change status from ${currentSemesterStatus} to ${requestStatus} `)
+  }
+
+  if(currentSemesterStatus === RegistrationStatus.ONGOING && requestStatus === RegistrationStatus.UPCOMING){
+    throw new AppError(httpStatus.NOT_FOUND,`you can not directly change status from ${currentSemesterStatus} to ${requestStatus} `)
+  }
+
+  const result = await semesterRegistration.findByIdAndUpdate(
+    id,
+    payload,
+    {
+        new : true,
+        runValidators : true
+    }
+
+  )
+  return result;
 }
 
 export const semesterRegistrationService = {
