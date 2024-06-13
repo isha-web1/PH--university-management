@@ -12,6 +12,8 @@ router.post('/create-academic-semester',validateRequest(AcademicSemesterValidati
 
 // router.get('/', studentController.getAllStudentFromDb)
 
+router.get('/', AcademicSemesterControllers.getAllAcademicSemesters);
+
 // router.get('/:studentId', studentController.getSingleStudentFromDb)
 
 // router.delete('/:studentId', studentController.deleteStudentFromDb)

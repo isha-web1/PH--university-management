@@ -3,6 +3,7 @@ import AppError from "../../errors/appErrors"
 import { AcademicSemester } from "../academicSemester/academicSemester.model"
 import { TSemesterRegistration } from "./semesterRegistration.interface"
 import { semesterRegistration } from "./semesterRegistration.model"
+import QueryBuilder from "../../builder/QueryBuilder"
 
 const createSemesterRegistrationIntoDb = async (payload : TSemesterRegistration) =>{
       const academicSemester = payload?.academicSemester
@@ -21,15 +22,21 @@ const result = await semesterRegistration.create(payload)
 return result;
 }
 
-const getAllSemesterRegistrationFromDb = async () =>{
+const getAllSemesterRegistrationFromDb = async (query : Record<string,unknown>) =>{
+const semesterRegistrationQuery = new QueryBuilder(semesterRegistration.find().populate('academicSemester'),query).filter().sort().paginate().fields()
 
+const result = await semesterRegistrationQuery.modelQuery;
+return result;
 }
 
-const getSingleSemesterRegistrationFromDb = async () =>{
+const getSingleSemesterRegistrationFromDb = async (id:string) =>{
+  
+    const result = await semesterRegistration.findById(id)
 
+    return result;
 }
 
-const updateSemesterRegistrationIntoDb = async () =>{
+const updateSemesterRegistrationIntoDb = async (id:string) =>{
 
 }
 

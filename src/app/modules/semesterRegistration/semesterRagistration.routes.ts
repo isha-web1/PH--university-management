@@ -22,7 +22,7 @@ router.get(
   semesterRegistrationController.getSingleSemesterRegistration,
 );
 
-router.patch('/:id', semesterRegistrationController.updateSemesterRegistration ),
+router.patch('/:id',validateRequest(semesterRegistrationValidation.updateSemesterRegistrationValidationSchema) ,semesterRegistrationController.updateSemesterRegistration ),
  
   
  

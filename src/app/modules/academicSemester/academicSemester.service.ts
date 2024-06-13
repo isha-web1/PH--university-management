@@ -7,8 +7,6 @@ import { AcademicSemester } from "./academicSemester.model"
 
 const createAcademicSemesterIntoDb = async(payload : TAcademicSemester ) =>{
 
-   
-
     if(academicSemesterNameCodeMapper[payload.name] !== payload.code){
         throw new AppError(httpStatus.NOT_FOUND,'invalid semester code !')
     }
@@ -17,6 +15,12 @@ const createAcademicSemesterIntoDb = async(payload : TAcademicSemester ) =>{
     return result;
 }
 
+const getAllAcademicSemestersFromDB = async () => {
+    const result = await AcademicSemester.find();
+    return result;
+  };
+
 export const AcademicSemesterServices = {
-    createAcademicSemesterIntoDb
+    createAcademicSemesterIntoDb,
+    getAllAcademicSemestersFromDB
 }
