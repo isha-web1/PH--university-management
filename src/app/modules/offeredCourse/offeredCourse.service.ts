@@ -8,6 +8,7 @@ import { AcademicDepartment } from '../academicDepartment/academicDepartment.mod
 import { Course } from '../course/course.model';
 import { Faculty } from '../faculty/faculty.model';
 import { SemesterRegistration } from '../semesterRegistration/semesterRegistration.model';
+import { hasTimeConflict } from './offeredCourse.utiles';
 
 const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
   const {
@@ -17,6 +18,9 @@ const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
     course,
     section,
     faculty,
+    days,
+    startTime,
+    endTime,
   } = payload;
   //   check if the semester registration id is exist
   const isSemesterRegistrationExits = await SemesterRegistration.findById(
@@ -83,6 +87,26 @@ const createOfferedCourseIntoDb = async (payload: TOfferedCourse) => {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       `Offered course with same section is already exist!`,
+    );
+  }
+
+  // get the schedules of the faculties
+  const assignedSchedules = await OfferedCourse.find({
+    semesterRegistration,
+    faculty,
+    days: { $in: days },
+  }).select('days startTime endTime');
+
+  const newSchedule = {
+    days,
+    startTime,
+    endTime,
+  };
+
+  if (hasTimeConflict(assignedSchedules, newSchedule)) {
+    throw new AppError(
+      httpStatus.CONFLICT,
+      `This faculty is not available at that time ! Choose other time or day`,
     );
   }
 
