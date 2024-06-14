@@ -36,4 +36,4 @@ const semesterRegistrationSchema = new mongoose.Schema<TSemesterRegistration>({
     timestamps : true
 })
 
-export const semesterRegistration = mongoose.model<TSemesterRegistration>('semesterRegistration', semesterRegistrationSchema)
+export const SemesterRegistration = mongoose.model<TSemesterRegistration>('semesterRegistration', semesterRegistrationSchema)

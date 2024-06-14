@@ -1,19 +1,20 @@
 import { TOfferedCourse } from "./offeredCourse.interface";
 import { OfferedCourse } from "./offeredCourse.model";
-import {semesterRegistration} from '../semesterRegistration/semesterRegistration.model'
+
 import AppError from "../../errors/appErrors";
 import httpStatus from "http-status";
 import { AcademicFaculty } from "../academicFaculty/academicFaculty.mode";
 import { AcademicDepartment } from "../academicDepartment/academicDepartment.model";
 import { Course } from "../course/course.model";
 import { Faculty } from "../faculty/faculty.model";
+import { SemesterRegistration } from "../semesterRegistration/semesterRegistration.model";
 
 
 const createOfferedCourseIntoDb = async(payload: TOfferedCourse) =>{
     const {semesterRegistration,academicFaculty,academicDepartment,course,faculty} = payload;
 //   check if the semester registration id is exist
 const isSemesterRegistrationExits =
-await semesterRegistration.findById(semesterRegistration);
+await SemesterRegistration.findById(payload.semesterRegistration);
 
 if (!isSemesterRegistrationExits) {
 throw new AppError(

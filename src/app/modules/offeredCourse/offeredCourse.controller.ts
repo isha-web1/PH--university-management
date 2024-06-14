@@ -10,7 +10,7 @@ const createOfferedCourse = catchAsync(async(req: Request, res:Response)=>{
     sendResponse(res,{
       statusCode : httpStatus.OK,
       success : true,
-      message : 'semester registration is created',
+      message : 'offered course is successfully  created',
       data : result
     })
   })
