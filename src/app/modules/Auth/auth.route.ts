@@ -4,6 +4,8 @@ import validateRequest from '../../middleware/validateRequest';
 // import { USER_ROLE } from './../user/user.constant';
 import { AuthControllers } from './auth.controller';
 import { AuthValidation } from './auth.validation';
+import { USER_ROLE } from '../user/user.constance';
+import Auth from '../../middleware/Auth.middleware';
 
 const router = express.Router();
 
@@ -13,12 +15,13 @@ router.post(
   AuthControllers.loginUser,
 );
 
-// router.post(
-//   '/change-password',
-//   auth(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.student),
-//   validateRequest(AuthValidation.changePasswordValidationSchema),
-//   AuthControllers.changePassword,
-// );
+
+router.post(
+  '/change-password',
+  Auth(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.student),
+  validateRequest(AuthValidation.changePasswordValidationSchema),
+  AuthControllers.changePassword,
+);
 
 // router.post(
 //   '/refresh-token',
