@@ -5,12 +5,13 @@ import AppError from "../errors/appErrors";
 import httpStatus from "http-status";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from "../../config";
+import { TUserRole } from "../modules/user/user.interface";
 
 
 
 
 
-const Auth = () =>{
+const Auth = (...requiredRoles : TUserRole[]) =>{
     return  catchAsync(async(req: Request, res: Response, next: NextFunction) =>{
     //    if the token sent from the client
       const token =  req.headers.authorization;
@@ -22,6 +23,10 @@ const Auth = () =>{
         jwt.verify(token,config.jwt_access_secret as string, function(err,decoded){
             if(err){
                 throw new AppError(httpStatus.UNAUTHORIZED,'you are not authorized')  
+            }
+            const role = (decoded as JwtPayload).role
+            if(requiredRoles && !requiredRoles.includes(role)){
+                throw new AppError(httpStatus.UNAUTHORIZED,'you are not authorized')   
             }
            req.user = decoded as JwtPayload
            next()
